@@ -1,26 +1,232 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --font-sans: "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont,
+    "Segoe UI Variable Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "SF Mono", "JetBrains Mono",
+    "Cascadia Mono", Menlo, Consolas, monospace;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-ink-950: #04060b;
+  --color-ink-900: #070a11;
+  --color-ink-850: #0a0e16;
+  --color-ink-800: #0f141d;
+  --color-ink-750: #141a25;
+  --color-ink-700: #1b2230;
+  --color-ink-600: #283142;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --color-mist-100: #edf1f7;
+  --color-mist-200: #d6deea;
+  --color-mist-300: #b0bbcc;
+  --color-mist-400: #8994a8;
+  --color-mist-500: #6a7487;
+  --color-mist-600: #4c5566;
+
+  --color-mint-200: #a9fbdc;
+  --color-mint-300: #6befc0;
+  --color-mint-400: #34dca0;
+  --color-mint-500: #16be85;
+  --color-mint-600: #0e9e6e;
+
+  --color-violet-300: #a99bff;
+  --color-violet-400: #8b7bff;
+  --color-violet-500: #6e5af0;
+
+  --color-amber-400: #ffc46b;
+  --color-rose-400: #ff7a8a;
+
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-line-strong: rgba(255, 255, 255, 0.16);
+
+  --animate-rise: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade: fade 0.5s ease both;
+  --animate-shimmer: shimmer 2.8s linear infinite;
+  --animate-halo: halo 7s ease-in-out infinite;
+  --animate-pulse-ring: pulse-ring 2.4s ease-out infinite;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  @keyframes halo {
+    0%,
+    100% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.85;
+      transform: scale(1.06);
+    }
+  }
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(0.85);
+      opacity: 0.65;
+    }
+    70% {
+      transform: scale(1.7);
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-line);
+  }
+
+  html {
+    background-color: var(--color-ink-950);
+    color-scheme: dark;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    min-height: 100%;
+    color: var(--color-mist-100);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv02", "cv03", "cv04", "ss01";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Decorative canvas: painted above the root background, below page content. */
+  body::before,
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  body::before {
+    background:
+      radial-gradient(1100px 620px at 10% -10%, rgba(52, 220, 160, 0.14), transparent 62%),
+      radial-gradient(920px 560px at 92% 2%, rgba(139, 123, 255, 0.13), transparent 64%),
+      radial-gradient(760px 700px at 50% 112%, rgba(22, 190, 133, 0.08), transparent 72%);
+  }
+
+  body::after {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 10%, transparent 78%);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 10%, transparent 78%);
+  }
+
+  ::selection {
+    background: rgba(52, 220, 160, 0.32);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-mint-400);
+    outline-offset: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border: 3px solid transparent;
+    border-radius: 999px;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+    background-clip: content-box;
+  }
+}
+
+@layer components {
+  .panel {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015)),
+      var(--color-ink-900);
+    border: 1px solid var(--color-line);
+    border-radius: 1.25rem;
+    box-shadow:
+      0 1px 0 0 rgba(255, 255, 255, 0.05) inset,
+      0 24px 60px -32px rgba(0, 0, 0, 0.9);
+  }
+
+  .panel-flat {
+    background: var(--color-ink-850);
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+  }
+
+  .hairline {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  .text-gradient {
+    background: linear-gradient(96deg, #ffffff 8%, var(--color-mint-300) 52%, var(--color-violet-300) 96%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .shimmer-text {
+    background: linear-gradient(
+      100deg,
+      var(--color-mist-400) 20%,
+      #ffffff 42%,
+      var(--color-mist-400) 64%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: var(--animate-shimmer);
+  }
+
+  .halo {
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(70px);
+    animation: var(--animate-halo);
+    pointer-events: none;
+  }
 }

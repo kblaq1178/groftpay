@@ -23,6 +23,18 @@
 # misc
 .DS_Store
 *.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+id_rsa*
+id_ed25519*
+*.wallet
+wallet*.json
+
+# local artifacts (captured pages, exports)
+/page.html
 
 # debug
 npm-debug.log*
